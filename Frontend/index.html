@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<!-- Metadados, logo como favicon e estilos da aplicação. -->
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- Manifesto e metadados para abrir como aplicativo instalado no celular. -->
+  <meta name="theme-color" content="#111111">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tony Lanches">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <meta name="description" content="Controle de faturamento, despesas e lucro da Tony Lanches.">
+  <title>Tony Lanches · Financeiro</title>
+  <link rel="icon" href="assets/logo.png"><link rel="stylesheet" href="styles.css">
+  <!-- Ordem de carga: configuração, adaptador de dados e interação. defer espera o DOM. -->
+  <script defer src="config.js"></script><script defer src="finance.js"></script><script defer src="api.js"></script><script defer src="app.js"></script>
+  <!-- A camada PWA cuida da instalação e cache da interface, sem armazenar respostas da API. -->
+  <script defer src="pwa.js"></script>
+</head>
+<body>
+  <!-- Identidade visual e navegação principal; vira uma barra superior no celular. -->
+  <aside class="sidebar">
+    <a class="brand" href="./index.html" aria-label="Tony Lanches"><img src="assets/logo.png" alt="Tony Lanches"></a>
+    <div class="side-label">GESTÃO DA HAMBURGUERIA</div>
+    <!-- data-view identifica qual painel será ativado por app.js. -->
+    <nav aria-label="Painéis financeiros">
+      <button class="nav-item active" data-view="daily"><span class="nav-icon">▦</span> Movimento diário</button>
+      <button class="nav-item" data-view="period"><span class="nav-icon">▥</span> Visão por período</button>
+    </nav>
+    <!-- Identificação da hamburgueria no rodapé da navegação. -->
+    <div class="side-bottom"><span class="side-monogram">TL</span><div><strong>Tony Lanches</strong><small>Painel financeiro</small></div></div>
+  </aside>
+  <main>
+    <!-- Contexto do painel e aviso explícito de dados fictícios no modo demo. -->
+    <header class="topbar"><div class="breadcrumb">Tony Lanches <span>/</span> Financeiro</div><div class="app-actions"><span class="demo-badge" id="mode-label">Dados da API</span><button type="button" class="install-button" id="install-app">Instalar app</button></div></header>
+    <!-- Avisos de conexão e atualização ficam fora dos indicadores financeiros. -->
+    <div class="pwa-banner" id="offline-notice" role="status" hidden></div>
+    <div class="pwa-banner" id="update-notice" hidden><span>Uma nova versão está disponível.</span><button type="button" id="update-app">Atualizar app</button></div>
+    <div class="workspace">
+      <!-- Título do painel e seletor da data dos lançamentos diários. -->
+      <div class="page-heading"><div><div class="eyebrow">CADA DIA CONTA</div><h1 id="page-title">Movimento diário<span>.</span></h1><p id="page-description">Fechamento com faturamento, despesas e imposto.</p></div><div class="date-control" id="daily-date-wrap"><label for="daily-date">Dia de referência</label><input type="date" id="daily-date" required></div></div>
+      <!-- Região de erros acessível; retry repete a consulta do painel atual. -->
+      <div id="error-banner" class="error-banner" role="alert" hidden><span id="error-text"></span><button id="retry">Tentar novamente</button></div>
+      <!-- Painel diário: indicadores, formulário, resultado e lançamentos. -->
+      <section id="daily-view" aria-label="Movimento diário">
+        <!-- Indicadores preenchidos dinamicamente com receita, despesas e lucro. -->
+        <div class="stats" id="daily-stats"></div>
+        <div class="daily-grid">
+          <!-- Dois totais por dia; os cálculos e a persistência são feitos por calcular_dia(). -->
+          <section class="card entry-card">
+            <div class="card-heading"><div><span class="section-kicker">FECHAMENTO DO CAIXA</span><h2>Faturamento e despesas</h2></div></div>
+            <form id="entry-form">
+              <label for="revenue-amount">Faturamento bruto do dia</label>
+              <div class="money-input"><span>R$</span><input id="revenue-amount" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" required maxlength="18"></div>
+              <p class="field-help">Informe o total bruto vendido na data selecionada.</p>
+              <label for="expense-amount">Somatório de despesas do dia</label>
+              <div class="money-input"><span>R$</span><input id="expense-amount" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" required maxlength="18"></div>
+              <p class="field-help">Informe o total de todas as despesas do dia. Não é uma despesa avulsa.</p>
+              <button type="submit" class="primary-button" id="save-button">Salvar e calcular o dia</button>
+              <p class="form-note">Salvar substitui os dois totais desta data e calcula o líquido no backend.</p>
+              <p class="field-help" id="day-status" role="status">Carregando fechamento…</p>
+            </form>
+          </section>
+          <!-- Resumo visual do lucro do dia; daily-result é preenchido pelo JavaScript. -->
+          <section class="card result-card"><div class="card-heading"><div><span class="section-kicker">RESULTADO DO DIA</span><h2>Lucro do dia</h2></div><span class="small-tag" id="result-date"></span></div><div id="daily-result"></div>
+            <!-- Total diário de despesas salvo pelo backend; não há contador fictício de despesas individuais. -->
+            <section class="expense-summary" aria-labelledby="expense-summary-title">
+              <div><h3 id="expense-summary-title">Somatório de despesas do dia</h3><p id="daily-expense-count">Aguardando os lançamentos.</p></div>
+              <output id="daily-expense-total" aria-live="polite">—</output>
+            </section>
+            <div class="formula"><span>Bruto</span><b>−</b><span>Imposto</span><b>−</b><span>Despesas</span><b>=</b><span>Lucro</span></div><div class="result-note"><span>✦</span><p>Um bom resultado começa com um caixa bem acompanhado.</p></div></section>
+        </div>
+        <!-- Configuração da taxa global existente na API; não altera dias históricos automaticamente. -->
+        <details class="card tax-settings">
+          <summary>Atualizar taxa de imposto · Taxa atual: <strong id="tax-current">Carregando…</strong></summary>
+          <form id="tax-form"><label for="tax-rate">Nova taxa (%)</label><div class="tax-fields"><input id="tax-rate" type="text" inputmode="decimal" placeholder="Ex.: 15" maxlength="20"><button id="save-tax" class="primary-button" type="submit">Atualizar taxa de imposto</button></div><p class="field-help">Deixe em branco para preservar a taxa atual. Alterações valem para os próximos cálculos.</p></form>
+        </details>
+        <!-- Tabela acessível com rolagem horizontal em telas pequenas. -->
+        <section class="card records-card"><div class="card-heading"><div><h2>Fechamento do dia</h2><p>Valores registrados no backend para esta data.</p></div><span class="small-tag" id="record-count"></span></div><div class="table-scroll"><table><thead><tr><th>Data</th><th class="number">Bruto</th><th class="number">Despesas</th><th class="number">Imposto</th><th class="number">Líquido</th></tr></thead><tbody id="daily-records"></tbody></table></div></section>
+      </section>
+      <!-- Segundo painel; usa o mesmo endpoint de intervalo para mês completo ou datas livres. -->
+      <section id="period-view" aria-label="Visão por período" hidden>
+        <!-- O modo mensal converte o mês escolhido em primeiro e último dia; o modo personalizado usa as duas datas. -->
+        <form class="card filter-bar" id="period-form">
+          <fieldset class="range-mode"><legend>O que você quer ver?</legend>
+            <label><input type="radio" name="range-mode" value="month" checked> Mês completo</label>
+            <label><input type="radio" name="range-mode" value="custom"> Período personalizado</label>
+          </fieldset>
+          <div id="month-filter"><label for="selected-month">Mês de referência</label><input id="selected-month" type="month" required></div>
+          <div id="start-filter" hidden><label for="start-date">De</label><input id="start-date" type="date" disabled></div>
+          <div id="end-filter" hidden><label for="end-date">Até</label><input id="end-date" type="date" disabled></div>
+          <div id="preset-filter" hidden><label for="period-preset">Atalho</label><select id="period-preset" disabled><option value="month">Este mês até hoje</option><option value="last">Mês passado</option><option value="quarter">Últimos 3 meses</option><option value="custom">Personalizado</option></select></div>
+          <button class="primary-button" type="submit" id="filter-button">Ver mês completo</button>
+        </form>
+        <!-- Totais do intervalo efetivamente aplicado, preenchidos por renderPeriod. -->
+        <div class="stats" id="period-stats"></div>
+        <!-- Gráfico SVG mensal e distribuição dos gastos por categoria. -->
+        <div class="period-grid"><section class="card"><div class="card-heading"><div><span class="section-kicker">SEUS NÚMEROS NO TEMPO</span><h2>Evolução do resultado</h2></div></div><div class="legend"><span><i class="yellow"></i>Faturamento</span><span><i class="red"></i>Despesas</span><span><i class="black"></i>Lucro</span></div><div id="chart" class="chart"></div></section><section class="card"><div class="card-heading"><div><span class="section-kicker">FECHAMENTOS</span><h2>Dias no período</h2></div></div><div id="period-summary"></div></section></div>
+        <!-- Tabela acessível com rolagem horizontal em telas pequenas. -->
+        <section class="card records-card"><div class="card-heading"><div><h2>Resumo mensal</h2><p id="period-caption">Resultados do período selecionado.</p></div></div><div class="table-scroll"><table><thead><tr><th>Mês</th><th class="number">Faturamento bruto</th><th class="number">Despesas</th><th class="number">Imposto</th><th class="number">Líquido</th><th class="number">Margem</th></tr></thead><tbody id="monthly-records"></tbody></table></div></section>
+      </section>
+      <!-- Identificação e fórmula utilizada para calcular o resultado. -->
+      <footer><span>TONY LANCHES <b>•</b> FINANCEIRO</span><span>Líquido = faturamento bruto − imposto − despesas</span></footer>
+    </div>
+  </main>
+  <!-- Confirmação de salvamento anunciada por leitores de tela. -->
+  <div class="toast" id="toast" role="status" hidden></div>
+  <!-- Ajuda de instalação para navegadores sem prompt programático, como Safari no iPhone. -->
+  <dialog class="install-dialog" id="install-help" aria-labelledby="install-title">
+    <h2 id="install-title">Tony Lanches no seu celular</h2>
+    <p id="install-message">Abra este endereço no navegador do celular.</p>
+    <p><strong>iPhone:</strong> no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.</p>
+    <p><strong>Android:</strong> no menu do navegador, escolha “Instalar aplicativo” ou “Adicionar à tela inicial”.</p>
+    <p>No computador, procure a opção de instalação no menu ou na barra de endereço do navegador.</p>
+    <form method="dialog"><button class="primary-button">Entendi</button></form>
+  </dialog>
+</body>
+</html>
