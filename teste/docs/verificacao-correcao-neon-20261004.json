@@ -1,0 +1,13 @@
+{
+  "data": "2026-10-04",
+  "revisao": "financeiro-tony-lanches-00008-gon",
+  "trafego_percentual": 100,
+  "correcao": "Removida injeção de GUCs nas opções de conexão ao Neon pooled",
+  "testes_python": 52,
+  "consultas_readonly_com_segredo_producao": 3,
+  "verificacao_banco": "Execução local das rotas com configuração exata de produção; autenticação simulada apenas no teste",
+  "dados_reais_alterados": false,
+  "api_publica_health": 200,
+  "api_publica_sem_token": 401,
+  "frontend_alterado": false
+}

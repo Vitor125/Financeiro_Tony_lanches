@@ -1,0 +1,1787 @@
+<!doctype html>
+
+<html lang="pt-BR">
+
+<!-- Metadados, logo como favicon e estilos da aplicação. -->
+
+<head><base href="../Frontend/">
+
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Manifesto e metadados para abrir como aplicativo instalado no celular. -->
+
+  <meta name="theme-color" content="#111111">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="apple-mobile-web-app-title" content="Tony Lanches">
+
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+
+  <meta name="description" content="Controle de faturamento, despesas e lucro da Tony Lanches.">
+
+  <title>Tony Lanches · Financeiro</title>
+
+  <!-- Antecipa DNS/TLS do login sem enviar requisições ou dados de acesso. -->
+  <link rel="preconnect" href="https://identitytoolkit.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://financeiro-tony-lanches-84954471063.southamerica-east1.run.app" crossorigin>
+  <link rel="dns-prefetch" href="https://securetoken.googleapis.com">
+
+  <link rel="icon" href="assets/logo.png"><style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+/* Tokens da identidade: cores, superfícies e arredondamento. */
+:root {
+  --yellow:#ffdc29;
+  --red:#dc352f;
+  --ink:#171717;
+  --muted:#777;
+  --line:#e9e9e9;
+  --bg:#f6f7f8;
+  --radius:16px
+}
+/* Modelo de caixa consistente para dimensões e espaçamentos. */
+* {
+  box-sizing:border-box
+}
+/* Tipografia e fundo geral da aplicação. */
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  font-size:16px
+}
+/* Estilos de button,input,select e sua apresentação na interface. */
+button,input,select {
+  font:inherit
+}
+/* Estilos de button,a,input,select e sua apresentação na interface. */
+button,a,input,select {
+  -webkit-tap-highlight-color:transparent
+}
+/* Estilos de button e sua apresentação na interface. */
+button {
+  cursor:pointer
+}
+/* Estilos de button:disabled e sua apresentação na interface. */
+button:disabled {
+  opacity:.6;
+  cursor:wait
+}
+/* Estilos de button:focus-visible,a:focus-visible e sua apresentação na interface. */
+button:focus-visible,a:focus-visible {
+  outline:3px solid #ba8700;
+  outline-offset:4px
+}
+/* Estilos de input:focus,select:focus e sua apresentação na interface. */
+input:focus,select:focus {
+  outline:2px solid #dac02b;
+  outline-offset:1px
+}
+/* Garante que elementos ocultos pelo JavaScript não ocupem espaço. */
+[hidden] {
+  display:none!important
+}
+/* Navegação escura fixa no desktop e identidade da hamburgueria. */
+.sidebar {
+  position:fixed;
+  width:238px;
+  background:#111;
+  height:100dvh;
+  padding:26px 18px;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  z-index:5
+}
+/* Logo original da marca e suas dimensões. */
+.brand {
+  display:block;
+  align-self:center
+}
+/* Logo original da marca e suas dimensões. */
+.brand img {
+  width:142px;
+  height:142px;
+  object-fit:contain
+}
+/* Textos auxiliares e identificação na navegação. */
+.side-label {
+  color:#848484;
+  font-size:11px;
+  letter-spacing:1.5px;
+  margin:35px 12px 18px;
+  line-height:1.5
+}
+/* Botões de navegação e seus estados. */
+.nav-item {
+  width:100%;
+  text-align:left;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background:#272727;
+  border:1px solid #484848;
+  color:#ededed;
+  border-radius:9px;
+  padding:15px 12px;
+  margin-bottom:8px;
+  font-size:14px;
+  font-weight:600
+}
+/* Botões de navegação e seus estados. */
+.nav-item:hover {
+  background:#353535;
+  border-color:#777;
+  color:white
+}
+/* Botões de navegação e seus estados. */
+.nav-item.active {
+  background:var(--yellow);
+  border-color:var(--yellow);
+  color:#111
+}
+.nav-item.active:hover { background:#ffe65a; border-color:#ffe65a; }
+.nav-label { min-width:0; line-height:1.4; }
+/* Botões de navegação e seus estados. */
+.nav-icon {
+  font-size:23px;
+  line-height:1
+}
+/* Textos auxiliares e identificação na navegação. */
+.side-bottom {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-top:1px solid #303030;
+  margin-top:auto;
+  padding:24px 10px 0
+}
+/* Textos auxiliares e identificação na navegação. */
+.side-monogram {
+  background:#2b2b2b;
+  color:var(--yellow);
+  padding:11px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:700
+}
+/* Textos auxiliares e identificação na navegação. */
+.side-bottom strong {
+  font-size:14px
+}
+/* Textos auxiliares e identificação na navegação. */
+.side-bottom small {
+  display:block;
+  color:#888;
+  font-size:12px;
+  margin-top:5px
+}
+/* Área principal compensando a largura da navegação fixa. */
+main {
+  margin-left:238px
+}
+/* Barra superior do contexto financeiro. */
+.topbar {
+  height:76px;
+  padding:0 42px;
+  background:white;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+/* Caminho visual da aplicação. */
+.breadcrumb {
+  font-size:14px;
+  font-weight:500
+}
+/* Caminho visual da aplicação. */
+.breadcrumb span {
+  padding:0 16px;
+  color:#b4b4b4
+}
+/* Aviso compacto sobre dados de demonstração. */
+.demo-badge {
+  font-size:12px;
+  padding:7px 12px;
+  background:#f4f4f4;
+  border:1px solid #e5e5e5;
+  border-radius:30px;
+  color:#666
+}
+/* Largura e espaçamento do conteúdo financeiro. */
+.workspace {
+  max-width:1510px;
+  margin:auto;
+  padding:37px 42px 24px
+}
+/* Título do painel e controle de data. */
+.page-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:30px
+}
+/* Estilos de .eyebrow,.section-kicker e sua apresentação na interface. */
+.eyebrow,.section-kicker {
+  font-size:11px;
+  letter-spacing:1.7px;
+  font-weight:700;
+  color:#888
+}
+/* Estilos de h1,h2,.stat-value,.profit-value e sua apresentação na interface. */
+h1,h2,.stat-value,.profit-value {
+  font-family:Manrope,sans-serif
+}
+/* Estilos de h1 e sua apresentação na interface. */
+h1 {
+  font-size:34px;
+  letter-spacing:-1.3px;
+  line-height:1.3;
+  margin:7px 0 8px;
+  font-weight:800
+}
+/* Estilos de h1 span e sua apresentação na interface. */
+h1 span {
+  color:var(--red)
+}
+/* Título do painel e controle de data. */
+.page-heading p {
+  margin:0;
+  color:var(--muted);
+  font-size:14px
+}
+/* Seletor do dia de referência. */
+.date-control label {
+  font-size:12px;
+  color:#777;
+  display:block;
+  margin-bottom:7px
+}
+/* Seletor do dia de referência. */
+.date-control input {
+  background:white;
+  width:184px
+}
+/* Estilos de input,select e sua apresentação na interface. */
+input,select {
+  min-height:46px;
+  border:1px solid #dedede;
+  background:#fff;
+  border-radius:8px;
+  padding:10px 12px;
+  min-width:0;
+  color:#222
+}
+/* Estilos de label e sua apresentação na interface. */
+label {
+  display:block;
+  font-size:14px;
+  font-weight:500;
+  margin-bottom:9px
+}
+/* Indicadores de receita, despesa e resultado. */
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  margin-bottom:25px
+}
+/* Indicadores de receita, despesa e resultado. */
+.stat-card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:23px 25px;
+  position:relative;
+  overflow:hidden
+}
+/* Indicadores de receita, despesa e resultado. */
+.stat-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:#666;
+  font-size:14px
+}
+/* Indicadores de receita, despesa e resultado. */
+.stat-symbol {
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  background:#f7f7f7;
+  display:grid;
+  place-items:center;
+  color:#222;
+  font-size:18px
+}
+/* Indicadores de receita, despesa e resultado. */
+.stat-value {
+  font-size:30px;
+  letter-spacing:-1px;
+  font-weight:800;
+  margin-top:12px;
+  overflow-wrap:anywhere
+}
+/* Indicadores de receita, despesa e resultado. */
+.stat-foot {
+  font-size:12px;
+  color:#888;
+  margin-top:8px
+}
+/* Indicadores de receita, despesa e resultado. */
+.stat-card.highlight {
+  background:var(--yellow);
+  border-color:var(--yellow)
+}
+/* Cores do indicador de lucro em destaque. */
+.highlight .stat-top,.highlight .stat-foot {
+  color:#5d520d
+}
+/* Cores do indicador de lucro em destaque. */
+.highlight .stat-symbol {
+  background:#ffffff50
+}
+/* Indicadores de receita, despesa e resultado. */
+.stat-card.expenses .stat-symbol {
+  color:var(--red);
+  background:#fdf0ef
+}
+/* Cartões e seus cabeçalhos. */
+.card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:26px
+}
+/* Layout dos cartões de lançamento e resultado. */
+.daily-grid {
+  display:grid;
+  grid-template-columns:1.02fr 1fr;
+  gap:25px;
+  margin-bottom:25px
+}
+/* Os cartões móveis são reordenados no DOM para preservar leitura e navegação. */
+@media (max-width: 620px) {
+  #mobile-date-slot { margin-bottom: 20px; }
+  #mobile-date-slot .date-control { margin: 0; }
+  #daily-view > .entry-card, #daily-view > .result-card { margin-bottom: 25px; }
+}
+/* Cartões e seus cabeçalhos. */
+.card-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:25px
+}
+/* Estilos de h2 e sua apresentação na interface. */
+h2 {
+  margin:6px 0 0;
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:-.5px
+}
+/* Cartões e seus cabeçalhos. */
+.card-heading p {
+  font-size:13px;
+  color:#888;
+  margin:7px 0 0
+}
+
+
+
+
+/* Campo monetário com prefixo R$ separado do valor. */
+.money-input {
+  display:flex;
+  align-items:center;
+  border:1px solid #dedede;
+  border-radius:8px;
+  padding-left:15px;
+  background:#fff
+}
+/* Campo monetário com prefixo R$ separado do valor. */
+.money-input:focus-within {
+  outline:2px solid #dac02b
+}
+/* Campo monetário com prefixo R$ separado do valor. */
+.money-input span {
+  color:#888;
+  font-size:18px
+}
+/* Campo monetário com prefixo R$ separado do valor. */
+.money-input input {
+  width:100%;
+  border:0;
+  font-family:Manrope,sans-serif;
+  font-size:26px;
+  font-weight:700;
+  outline:none;
+  min-height:63px;
+  background:transparent
+}
+/* Estilos de .field-help e sua apresentação na interface. */
+.field-help {
+  font-size:12px;
+  color:#888;
+  margin:9px 0 22px
+}
+
+/* Estilos de form>input,form select e sua apresentação na interface. */
+form>input,form select {
+  width:100%;
+  margin-bottom:20px
+}
+/* Ação principal na cor amarela da marca. */
+.primary-button {
+  background:var(--yellow);
+  border:0;
+  border-radius:8px;
+  padding:14px 20px;
+  font-size:14px;
+  font-weight:700;
+  color:#171717;
+  min-height:48px
+}
+/* Ação principal na cor amarela da marca. */
+.primary-button:hover {
+  background:#f0cc16
+}
+/* Estilos de #save-button e sua apresentação na interface. */
+#save-button {
+  width:100%;
+  margin-top:2px
+}
+/* Abas, ajuda e observações do formulário. */
+.form-note {
+  font-size:12px;
+  color:#999;
+  text-align:center;
+  margin:14px 0 0
+}
+/* Estilos de .small-tag e sua apresentação na interface. */
+.small-tag {
+  font-size:12px;
+  background:#f6f6f6;
+  color:#777;
+  border-radius:6px;
+  padding:7px 10px;
+  white-space:nowrap
+}
+/* Estilos de .result-card e sua apresentação na interface. */
+.result-card {
+  display:flex;
+  flex-direction:column
+}
+/* Destaque do resultado diário. */
+.profit-label {
+  font-size:14px;
+  color:#777;
+  text-align:center;
+  margin-top:20px
+}
+/* Destaque do resultado diário. */
+.profit-value {
+  text-align:center;
+  font-size:48px;
+  letter-spacing:-2px;
+  font-weight:800;
+  line-height:1.35;
+  margin:10px 0;
+  overflow-wrap:anywhere
+}
+/* Estilos de .margin-pill e sua apresentação na interface. */
+.margin-pill {
+  font-size:12px;
+  font-weight:600;
+  background:#fff8d6;
+  border-radius:30px;
+  padding:8px 13px;
+  width:max-content;
+  margin:0 auto 26px;
+  color:#7b6200
+}
+/* Estilos de .negative e sua apresentação na interface. */
+.negative {
+  color:var(--red)!important
+}
+/* Distribuição visual entre receitas e despesas. */
+.balance-labels {
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  font-size:12px;
+  color:#777;
+  margin:12px 0
+}
+/* Distribuição visual entre receitas e despesas. */
+.balance-labels strong {
+  display:block;
+  font-size:14px;
+  color:#222;
+  margin-top:5px
+}
+/* Distribuição visual entre receitas e despesas. */
+.balance-labels>div:last-child {
+  text-align:right
+}
+
+
+
+/* Abas, ajuda e observações do formulário. */
+.formula {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:13px;
+  padding:20px 0;
+  font-size:11px;
+  color:#888;
+  border-top:1px dashed #e6e6e6;
+  margin-top:22px
+}
+/* Abas, ajuda e observações do formulário. */
+.formula b {
+  font-size:17px;
+  color:#999
+}
+/* Estilos de .result-note e sua apresentação na interface. */
+.result-note {
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px 18px;
+  background:#f8f8f8;
+  border-radius:9px
+}
+/* Estilos de .result-note span e sua apresentação na interface. */
+.result-note span {
+  color:#bca00c;
+  font-size:23px
+}
+/* Estilos de .result-note p e sua apresentação na interface. */
+.result-note p {
+  font-size:12px;
+  line-height:1.7;
+  color:#888;
+  margin:0
+}
+/* Estilos de .records-card e sua apresentação na interface. */
+.records-card {
+  padding-bottom:8px
+}
+/* Estilos de .table-scroll e sua apresentação na interface. */
+.table-scroll {
+  overflow:auto
+}
+/* Estilos de table e sua apresentação na interface. */
+table {
+  border-collapse:collapse;
+  width:100%;
+  white-space:nowrap;
+  text-align:left;
+  font-size:14px
+}
+/* Estilos de th e sua apresentação na interface. */
+th {
+  background:#fafafa;
+  color:#888;
+  font-size:12px;
+  font-weight:500;
+  padding:13px 15px
+}
+/* Estilos de td e sua apresentação na interface. */
+td {
+  padding:17px 15px;
+  border-bottom:1px solid #f0f0f0
+}
+/* Estilos de tr:last-child td e sua apresentação na interface. */
+tr:last-child td {
+  border:0
+}
+/* Estilos de .number e sua apresentação na interface. */
+.number {
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  font-weight:600
+}
+
+
+
+
+/* Estilos de .empty e sua apresentação na interface. */
+.empty {
+  padding:35px 15px;
+  color:#888;
+  text-align:center;
+  font-size:14px
+}
+/* Controles de consulta do mês ou intervalo. */
+.filter-bar {
+  display:flex;
+  align-items:flex-end;
+  gap:16px;
+  margin-bottom:24px;
+  padding:20px 24px
+}
+/* Controles de consulta do mês ou intervalo. */
+.filter-bar>div {
+  flex:1
+}
+/* Controles de consulta do mês ou intervalo. */
+.filter-bar input,.filter-bar select {
+  width:100%;
+  margin:0
+}
+/* Controles de consulta do mês ou intervalo. */
+.filter-bar label {
+  font-size:12px;
+  color:#777
+}
+/* Controles de consulta do mês ou intervalo. */
+.filter-bar button {
+  white-space:nowrap
+}
+/* Layout do gráfico e das despesas por categoria. */
+.period-grid {
+  display:grid;
+  grid-template-columns:1.65fr 1fr;
+  gap:25px;
+  margin-bottom:25px
+}
+/* Legenda das três séries do gráfico. */
+.legend {
+  display:flex;
+  gap:19px;
+  font-size:12px;
+  color:#888
+}
+/* Legenda das três séries do gráfico. */
+.legend span {
+  display:flex;
+  align-items:center;
+  gap:6px
+}
+/* Legenda das três séries do gráfico. */
+.legend i {
+  height:8px;
+  width:8px;
+  border-radius:2px;
+  display:inline-block
+}
+/* Estilos de .yellow e sua apresentação na interface. */
+.yellow {
+  background:var(--yellow)
+}
+/* Estilos de .red e sua apresentação na interface. */
+.red {
+  background:var(--red)
+}
+/* Estilos de .black e sua apresentação na interface. */
+.black {
+  background:#242424
+}
+/* Área do gráfico SVG adaptável à largura disponível. */
+.chart {
+  min-height:235px;
+  margin-top:20px
+}
+/* Área do gráfico SVG adaptável à largura disponível. */
+.chart svg {
+  width:100%;
+  height:auto;
+  display:block
+}
+
+
+
+
+
+
+/* Mensagem de erro e ação para repetir a consulta. */
+.error-banner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:15px 20px;
+  background:#fff0ee;
+  color:#a32d26;
+  border:1px solid #f4c5c2;
+  border-radius:10px;
+  margin-bottom:20px;
+  font-size:14px
+}
+/* Mensagem de erro e ação para repetir a consulta. */
+.error-banner button {
+  background:transparent;
+  color:inherit;
+  border:1px solid #c34f46;
+  border-radius:5px;
+  padding:7px 10px
+}
+/* Confirmação temporária de salvamento. */
+.toast {
+  position:fixed;
+  bottom:24px;
+  left:calc(50% + 119px);
+  transform:translateX(-50%);
+  padding:15px 22px;
+  background:#171717;
+  color:white;
+  border-radius:10px;
+  box-shadow:0 6px 25px #0003;
+  z-index:20;
+  font-size:14px;
+  max-width:90vw
+}
+/* Rodapé com a identificação e a fórmula do resultado. */
+footer {
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin-top:28px;
+  color:#aaa;
+  font-size:11px;
+  line-height:1.5
+}
+/* Rodapé com a identificação e a fórmula do resultado. */
+footer b {
+  color:#dc352f;
+  margin:0 6px
+}
+/* Rodapé com a identificação e a fórmula do resultado. */
+footer>span:first-child {
+  letter-spacing:1.1px;
+  font-weight:600
+}
+/* Estado visual de carregamento; bloqueia interações no painel. */
+.loading {
+  opacity:.45;
+  pointer-events:none
+}
+/* Controles de consulta do mês ou intervalo. */
+.filter-bar {
+  flex-wrap:wrap
+}
+/* Escolha acessível entre mês completo e período personalizado. */
+.range-mode {
+  width:100%;
+  flex-basis:100%;
+  border:0;
+  border-bottom:1px solid var(--line);
+  padding:0 0 17px;
+  margin:0 0 2px;
+  display:flex;
+  gap:24px
+}
+/* Escolha acessível entre mês completo e período personalizado. */
+.range-mode legend {
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:14px
+}
+/* Escolha acessível entre mês completo e período personalizado. */
+.range-mode label {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  cursor:pointer
+}
+/* Escolha acessível entre mês completo e período personalizado. */
+.range-mode input {
+  width:17px;
+  height:17px;
+  min-height:0;
+  margin:0;
+  accent-color:#171717
+}
+/* Controles de consulta do mês ou intervalo. */
+.filter-bar #month-filter {
+  max-width:330px
+}
+/* Adaptação responsiva das dimensões e do layout ao tamanho da tela. */
+@media(max-width:620px) {
+  /* Escolha acessível entre mês completo e período personalizado. */
+  .range-mode {
+    grid-column:1/-1;
+    flex-wrap:wrap;
+    gap:12px
+  }
+  /* Escolha acessível entre mês completo e período personalizado. */
+  .range-mode label {
+    font-size:13px
+  }
+  /* Controles de consulta do mês ou intervalo. */
+  .filter-bar #month-filter {
+    max-width:none;
+    grid-column:1/-1
+  }
+}
+/* Adaptação responsiva das dimensões e do layout ao tamanho da tela. */
+@media(min-width:1600px) {
+  /* Largura e espaçamento do conteúdo financeiro. */
+  .workspace {
+    padding-top:50px
+  }
+  /* Layout dos cartões de lançamento e resultado. */
+  .daily-grid {
+    grid-template-columns:1fr 1.1fr
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-card {
+    padding:28px
+  }
+  /* Cartões e seus cabeçalhos. */
+  .card {
+    padding:30px
+  }
+}
+/* Adaptação responsiva das dimensões e do layout ao tamanho da tela. */
+@media(max-width:1100px) {
+  /* Navegação escura fixa no desktop e identidade da hamburgueria. */
+  .sidebar {
+    width:200px;
+    padding:20px 12px
+  }
+  /* Logo original da marca e suas dimensões. */
+  .brand img {
+    width:125px;
+    height:125px
+  }
+  /* Área principal compensando a largura da navegação fixa. */
+  main {
+    margin-left:200px
+  }
+  /* Largura e espaçamento do conteúdo financeiro. */
+  .workspace {
+    padding:28px 25px
+  }
+  /* Barra superior do contexto financeiro. */
+  .topbar {
+    padding:0 25px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-card {
+    padding:20px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-value {
+    font-size:25px
+  }
+  /* Destaque do resultado diário. */
+  .profit-value {
+    font-size:38px
+  }
+  /* Cartões e seus cabeçalhos. */
+  .card {
+    padding:22px
+  }
+  /* Confirmação temporária de salvamento. */
+  .toast {
+    left:calc(50% + 100px)
+  }
+  /* Layout do gráfico e das despesas por categoria. */
+  .period-grid {
+    grid-template-columns:1fr
+  }
+  /* Abas, ajuda e observações do formulário. */
+  .formula {
+    gap:8px
+  }
+}
+/* Adaptação responsiva das dimensões e do layout ao tamanho da tela. */
+@media(max-width:800px) {
+  /* Navegação escura fixa no desktop e identidade da hamburgueria. */
+  .sidebar {
+    position:relative;
+    height:auto;
+    width:100%;
+    padding:10px 18px;
+    flex-direction:row;
+    align-items:center;
+    gap:22px
+  }
+  /* Logo original da marca e suas dimensões. */
+  .brand img {
+    width:62px;
+    height:62px
+  }
+  /* Textos auxiliares e identificação na navegação. */
+  .side-label,.side-bottom {
+    display:none
+  }
+  /* Navegação escura fixa no desktop e identidade da hamburgueria. */
+  .sidebar nav {
+    display:flex;
+    flex:1;
+    gap:8px
+  }
+  /* Botões de navegação e seus estados. */
+  .nav-item {
+    margin:0;
+    justify-content:center;
+    font-size:13px;
+    padding:12px 9px
+  }
+  /* Botões de navegação e seus estados. */
+  .nav-icon {
+    font-size:20px
+  }
+  /* Área principal compensando a largura da navegação fixa. */
+  main {
+    margin:0
+  }
+  /* Barra superior do contexto financeiro. */
+  .topbar {
+    height:59px
+  }
+  /* Largura e espaçamento do conteúdo financeiro. */
+  .workspace {
+    padding:26px 22px
+  }
+  /* Layout dos cartões de lançamento e resultado. */
+  .daily-grid {
+    grid-template-columns:1fr 1fr;
+    gap:18px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stats {
+    gap:12px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-card {
+    padding:17px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-value {
+    font-size:23px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-top {
+    font-size:12px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-symbol {
+    display:none
+  }
+  /* Confirmação temporária de salvamento. */
+  .toast {
+    left:50%
+  }
+  /* Título do painel e controle de data. */
+  .page-heading {
+    align-items:flex-start
+  }
+  /* Estilos de h1 e sua apresentação na interface. */
+  h1 {
+    font-size:29px
+  }
+  /* Abas, ajuda e observações do formulário. */
+  .formula {
+    flex-wrap:wrap
+  }
+  /* Destaque do resultado diário. */
+  .profit-value {
+    font-size:34px
+  }
+}
+/* Adaptação responsiva das dimensões e do layout ao tamanho da tela. */
+@media(max-width:620px) {
+  /* Largura e espaçamento do conteúdo financeiro. */
+  .workspace {
+    padding:24px 16px
+  }
+  /* Barra superior do contexto financeiro. */
+  .topbar {
+    padding:0 16px
+  }
+  /* Caminho visual da aplicação. */
+  .breadcrumb {
+    font-size:12px
+  }
+  /* Caminho visual da aplicação. */
+  .breadcrumb span {
+    padding:0 8px
+  }
+  /* Aviso compacto sobre dados de demonstração. */
+  .demo-badge {
+    font-size:10px;
+    padding:6px 9px
+  }
+  /* Título do painel e controle de data. */
+  .page-heading {
+    flex-direction:column;
+    gap:20px;
+    margin-bottom:22px
+  }
+  /* Seletor do dia de referência. */
+  .date-control {
+    width:100%
+  }
+  /* Seletor do dia de referência. */
+  .date-control input {
+    width:100%
+  }
+  /* Layout dos cartões de lançamento e resultado. */
+  .daily-grid {
+    grid-template-columns:1fr
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stats {
+    grid-template-columns:1fr;
+    gap:10px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-card {
+    padding:17px 20px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-top {
+    font-size:14px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-value {
+    font-size:28px;
+    margin-top:6px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-symbol {
+    display:grid;
+    position:absolute;
+    right:20px;
+    top:35px
+  }
+  /* Indicadores de receita, despesa e resultado. */
+  .stat-foot {
+    margin-top:5px
+  }
+  /* Navegação escura fixa no desktop e identidade da hamburgueria. */
+  .sidebar {
+    gap:12px;
+    padding:8px 12px
+  }
+  /* Botões de navegação e seus estados. */
+  .nav-item {
+    font-size:12px;
+    gap:7px
+  }
+  /* Logo original da marca e suas dimensões. */
+  .brand img {
+    width:50px;
+    height:50px
+  }
+  /* Cartões e seus cabeçalhos. */
+  .card {
+    padding:22px 19px
+  }
+  /* Estilos de .records-card e sua apresentação na interface. */
+  .records-card {
+    padding-bottom:8px
+  }
+  /* Destaque do resultado diário. */
+  .profit-value {
+    font-size:45px
+  }
+  /* Controles de consulta do mês ou intervalo. */
+  .filter-bar {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    padding:18px
+  }
+  /* Controles de consulta do mês ou intervalo. */
+  .filter-bar button {
+    align-self:end
+  }
+  /* Layout do gráfico e das despesas por categoria. */
+  .period-grid {
+    gap:20px
+  }
+  /* Rodapé com a identificação e a fórmula do resultado. */
+  footer {
+    flex-direction:column;
+    gap:9px
+  }
+  /* Área do gráfico SVG adaptável à largura disponível. */
+  .chart {
+    min-height:190px
+  }
+  /* Cartões e seus cabeçalhos. */
+  .card-heading {
+    gap:10px
+  }
+  /* Estilos de .section-kicker e sua apresentação na interface. */
+  .section-kicker {
+    font-size:10px
+  }
+  /* Estilos de .small-tag e sua apresentação na interface. */
+  .small-tag {
+    font-size:11px
+  }
+  /* Estilos de h2 e sua apresentação na interface. */
+  h2 {
+    font-size:18px
+  }
+}
+
+/* Impede que conteúdo longo force os cartões para fora da largura disponível. */
+.card, .stat-card, .workspace, .daily-grid, .period-grid {
+  min-width: 0;
+}
+
+/* Mantém a navegação fixa ancorada no canto superior do desktop. */
+.sidebar {
+  top: 0;
+  left: 0;
+}
+
+/* A rolagem das tabelas acontece dentro do cartão, sem arrastar a página inteira. */
+.table-scroll {
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* No tablet e celular a navegação participa do fluxo normal da página. */
+@media (max-width: 800px) {
+  .sidebar {
+    top: auto;
+    left: auto;
+  }
+  .sidebar nav, .nav-item {
+    min-width: 0;
+  }
+  .brand {
+    flex-shrink: 0;
+  }
+}
+
+/* Campos de 16px evitam o zoom automático do Safari ao digitar no celular. */
+@media (max-width: 620px) {
+  input, select {
+    font-size: 16px;
+    max-width: 100%;
+  }
+  button {
+    min-height: 44px;
+  }
+  .nav-icon {
+    flex-shrink: 0;
+  }
+  .nav-item {
+    white-space: normal;
+    line-height: 1.4;
+  }
+  /* Cada filtro ocupa uma linha: datas e botões permanecem confortáveis para toque. */
+  .filter-bar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .filter-bar > div, .filter-bar > button {
+    width: 100%;
+    min-width: 0;
+  }
+  .range-mode {
+    min-width: 0;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .range-mode label {
+    min-height: 36px;
+    font-size: 14px;
+  }
+  .range-mode input {
+    flex-shrink: 0;
+  }
+  .result-note p, .form-note, .field-help {
+    overflow-wrap: anywhere;
+  }
+  /* A confirmação se adapta à tela e respeita a área segura de celulares com recorte. */
+  .toast {
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Telas muito estreitas: diminui só os espaçamentos para preservar o conteúdo. */
+@media (max-width: 360px) {
+  .workspace {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+  .sidebar {
+    gap: 8px;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+  .nav-item {
+    padding-right: 7px;
+    padding-left: 7px;
+  }
+  .profit-value {
+    font-size: clamp(28px, 11vw, 40px);
+  }
+  .error-banner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* Ações do webapp junto ao aviso de origem dos dados. */
+.topbar { min-height: 76px; height: auto; gap: 16px; padding-top: 14px; padding-bottom: 14px; }
+.app-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; flex-wrap: wrap; }
+.install-button { border: 1px solid #ddd; border-radius: 8px; background: #fff; font-size: 14px; font-weight: 600; min-height: 44px; padding: 10px 15px; }
+.install-button:hover { background: #ffdc29; border-color: #ffdc29; }
+/* Avisos não alteram nem substituem os valores dos indicadores financeiros. */
+.pwa-banner { margin: 18px 42px 0; padding: 14px 18px; border: 1px solid #e5ce62; background: #fff8d6; border-radius: 10px; display: flex; gap: 16px; align-items: center; justify-content: space-between; font-size: 14px; line-height: 1.6; }
+.pwa-banner button { border: 1px solid #a18a28; background: transparent; border-radius: 6px; padding: 10px; min-height: 44px; white-space: nowrap; }
+/* Diálogo nativo mantém foco e fechamento pelo teclado acessíveis. */
+.install-dialog { border: 0; border-radius: 16px; padding: 28px; width: min(480px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow: auto; color: #171717; }
+.install-dialog::backdrop { background: #0008; }
+/* Somatório diário em destaque, usando o vermelho da marca para representar despesas. */
+.expense-summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 22px; padding: 19px; background: #fdf0ef; border: 1px solid #f5dad7; border-radius: 10px; }
+.expense-summary h3 { margin: 0; font-size: 14px; font-weight: 700; line-height: 1.5; }
+.expense-summary p { margin: 6px 0 0; font-size: 12px; color: #866862; line-height: 1.6; }
+.expense-summary output { color: var(--red); font-family: Manrope, sans-serif; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+/* Mantém rótulo e total legíveis em telas pequenas e com números maiores. */
+@media (max-width: 1100px) { .expense-summary { flex-direction: column; align-items: flex-start; gap: 10px; } }
+/* Os quatro indicadores refletem bruto, despesas, imposto e líquido do backend. */
+.stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tax-settings { margin-bottom: 25px; }
+.tax-settings summary { cursor: pointer; font-size: 14px; line-height: 1.8; }
+.tax-settings form { margin-top: 18px; }
+.tax-fields { display: flex; align-items: center; gap: 12px; }
+.tax-fields input { flex: 1; width: 100%; }
+.closing-date { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -7px 0 22px; padding: 13px 15px; border: 1px solid #eee3a8; border-radius: 9px; background: #fffbea; color: #6d5b00; font-size: 13px; }
+.closing-date strong { color: #171717; font-family: Manrope, sans-serif; font-size: 16px; font-variant-numeric: tabular-nums; }
+.entry-card .date-control { margin: 0 0 18px; }
+.entry-card .date-control input { width: 100%; }
+.period-summary-row { display: flex; justify-content: space-between; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.period-summary-row strong { font-size: 24px; font-family: Manrope, sans-serif; }
+/* Adaptação dos indicadores e da taxa aos tamanhos de tablet e celular. */
+@media (max-width: 1100px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .stats { grid-template-columns: 1fr; } .tax-fields { flex-direction: column; align-items: stretch; } }
+.install-dialog h2 { margin-top: 0; }
+.install-dialog p { color: #666; font-size: 16px; line-height: 1.7; }
+.install-dialog .primary-button { width: 100%; }
+/* Respeita as áreas seguras quando instalado em celulares com recorte na tela. */
+@media (display-mode: standalone) {
+  .sidebar { padding-top: max(10px, env(safe-area-inset-top)); }
+  .workspace { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+}
+.auth-gate {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #111;
+}
+.auth-card {
+  width: min(100%, 420px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 32px;
+  border-radius: 16px;
+  background: #fff;
+}
+.auth-logo {
+  width: 112px;
+  height: 112px;
+  object-fit: contain;
+  align-self: center;
+  margin-bottom: 8px;
+}
+.auth-card h1 {
+  margin: 0 0 8px;
+  font-size: 27px;
+}
+.auth-card label {
+  margin-top: 4px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+}
+.auth-card input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.auth-card .primary-button {
+  width: 100%;
+  margin-top: 8px;
+}
+.auth-message {
+  min-height: 22px;
+  margin: 0;
+  color: #a32d26;
+  font-size: 13px;
+  line-height: 1.6;
+}
+@media (max-width: 620px) {
+  .topbar { align-items: stretch; flex-direction: column; gap: 10px; padding-top: 12px; padding-bottom: 12px; }
+  .app-actions { justify-content: space-between; }
+  .pwa-banner { margin: 14px 16px 0; flex-direction: column; align-items: stretch; }
+  .install-dialog { padding: 22px; }
+  .auth-card { padding: 26px 22px; }
+  .breadcrumb { font-size: 13px; }
+  .demo-badge { font-size: 11px; }
+  .nav-item { font-size: 13px; }
+  .section-kicker { font-size: 11px; }
+  .small-tag { font-size: 12px; }
+  .field-help, .form-note, .stat-foot { font-size: 13px; }
+  .date-control label { font-size: 13px; }
+  .closing-date { font-size: 14px; }
+  .expense-summary p { font-size: 13px; }
+  .primary-button, .install-button { font-size: 15px; }
+  .range-mode label { font-size: 15px; }
+  .tax-settings summary { font-size: 15px; }
+  .auth-card label, .auth-message { font-size: 14px; }
+}
+.management-card { max-width: 680px; margin-top: 24px; }
+.management-card label { display: block; margin: 18px 0 8px; }
+.management-card .primary-button { margin-top: 16px; }
+.delete-area { margin-top: 28px; padding-top: 20px; border-top: 1px solid #dedede; }
+.delete-area p { font-size: 14px; line-height: 1.6; color: #555; margin-bottom: 16px; }
+.danger-button { border: 1px solid #a92020; background: #fff0f0; color: #9b1616; padding: 14px 20px; border-radius: 8px; font: inherit; font-weight: 700; cursor: pointer; }
+.danger-button:hover { background: #ffe0e0; }
+.danger-button:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 800px) { .sidebar nav { flex-wrap: wrap; } .sidebar nav .nav-item { flex: 1 1 140px; } }
+.edit-shortcut { display: inline-block; margin-top: 12px; color: #713d00; font-weight: 700; text-decoration: underline; line-height: 1.6; }
+@media (max-width: 620px) {
+  body { font-size: 16px; }
+  .nav-item { font-size: 15px; }
+  .breadcrumb, .section-kicker, .small-tag { font-size: 14px; }
+  .demo-badge { font-size: 13px; }
+  .field-help, .form-note, .stat-foot, .expense-summary p, .delete-area p { font-size: 15px; line-height: 1.6; }
+  .date-control label, .management-card label, .filter-bar label { font-size: 15px; }
+  .closing-date, .range-mode label, .tax-settings summary, .auth-card label, .auth-message { font-size: 16px; }
+  .primary-button, .install-button, .danger-button, .edit-shortcut, table { font-size: 16px; }
+  .page-heading p, .card-heading p, .balance-labels, .margin-pill { font-size: 15px; line-height: 1.6; }
+}
+
+/* Lembretes e opções legíveis também no celular. */
+.reminder-card {padding:24px;margin-bottom:18px;max-width:800px}
+.reminder-card h2 {margin:0 0 14px}
+.reminder-card p {line-height:1.6}
+.reminder-card form {display:grid;gap:16px}
+.reminder-weekdays {display:flex;flex-wrap:wrap;gap:16px;padding:16px;border:1px solid var(--line);border-radius:10px}
+.reminder-weekdays label,.reminder-check {display:flex;align-items:center;gap:8px}
+.reminder-weekdays input,.reminder-check input {width:20px;height:20px;accent-color:#111}
+.reminder-banner {display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px;margin-bottom:20px;border:1px solid #d8b526;border-radius:12px;background:#fff8d7;color:#332b12}
+.reminder-banner[hidden] {display:none}
+.reminder-actions {display:flex;flex-wrap:wrap;gap:12px}
+.reminder-date,.reminder-banner button,.secondary-button {padding:12px 16px;border:1px solid #aaa;border-radius:9px;background:white;color:#111;cursor:pointer;font:inherit}
+#reminder-pending {list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:12px}
+@media(max-width:620px){.reminder-card{padding:18px}.reminder-card p,.reminder-card label{font-size:15px}.reminder-banner{align-items:stretch;flex-direction:column}.reminder-date,.reminder-banner button{font-size:16px}.reminder-actions button{width:100%}}
+</style>
+
+  
+  
+  <!-- Ordem de carga: configuração, autenticação, adaptador de dados e interação. -->
+  
+  <!-- A camada PWA cuida da instalação e cache da interface, sem armazenar respostas da API. -->
+  
+</head>
+<body>
+  <section class="auth-gate" id="auth-gate" aria-labelledby="login-title">
+    <form class="auth-card" id="login-form">
+      <img src="assets/logo.png" alt="Tony Lanches" class="auth-logo">
+      <span class="section-kicker">ACESSO RESTRITO</span>
+      <h1 id="login-title">Entrar no financeiro</h1>
+      <label for="login-email">E-mail</label>
+      <input id="login-email" type="email" autocomplete="username" required>
+      <label for="login-password">Senha</label>
+      <input id="login-password" type="password" autocomplete="current-password" required>
+      <p id="auth-message" class="auth-message" role="alert" aria-live="polite"></p>
+      <button class="primary-button" id="login-button" type="submit">Entrar</button>
+      <button class="primary-button" id="retry-access" type="button" hidden>Tentar acesso novamente</button>
+      <p class="auth-help">Entre com um e-mail já cadastrado no Firebase Authentication. Depois do primeiro login, este navegador tentará manter sua sessão.</p>
+    </form>
+  </section>
+  <!-- Identidade visual e navegação principal; vira uma barra superior no celular. -->
+  <aside class="sidebar" id="app-sidebar" hidden>
+    <a class="brand" href="./index.html" aria-label="Tony Lanches"><img src="assets/logo.png" alt="Tony Lanches"></a>
+
+    <div class="side-label">GESTÃO DA HAMBURGUERIA</div>
+
+    <!-- data-view identifica qual painel será ativado por app.js. -->
+
+    <nav aria-label="Painéis financeiros">
+
+      <button class="nav-item active" data-view="daily"><span class="nav-icon" aria-hidden="true">▦</span><span class="nav-label">Calculo diário</span></button>
+
+      <button class="nav-item" data-view="period"><span class="nav-icon" aria-hidden="true">▥</span><span class="nav-label">Consultar mês e período</span></button>
+      <button class="nav-item" data-view="manage"><span class="nav-icon" aria-hidden="true">✎</span><span class="nav-label">Editar e excluir dados</span></button>
+
+      <button class="nav-item" data-view="reminders"><span class="nav-icon" aria-hidden="true">◷</span><span class="nav-label">Lembretes</span></button>
+    </nav>
+
+    <!-- Identificação da hamburgueria no rodapé da navegação. -->
+
+    <div class="side-bottom"><span class="side-monogram">TL</span><div><strong>Tony Lanches</strong><small>Painel financeiro</small></div></div>
+
+  </aside>
+
+  <main id="app-main" hidden>
+    <!-- Contexto do painel e aviso explícito de dados fictícios no modo demo. -->
+
+    <header class="topbar"><div class="breadcrumb">Tony Lanches <span>/</span> Financeiro</div><div class="app-actions"><span class="demo-badge" id="mode-label">Dados da API</span><button type="button" class="install-button" id="install-app">Instalar app</button><button type="button" class="install-button" id="logout-button">Sair</button></div></header>
+    <!-- Avisos de conexão e atualização ficam fora dos indicadores financeiros. -->
+
+    <div class="pwa-banner" id="offline-notice" role="status" hidden></div>
+
+    <div class="pwa-banner" id="update-notice" hidden><span>Uma nova versão está disponível.</span><button type="button" id="update-app">Atualizar app</button></div>
+
+    <div class="workspace">
+
+      <!-- Título do painel; a data é selecionada dentro do fechamento do caixa. -->
+
+      <div class="page-heading"><div><div class="eyebrow">CADA DIA CONTA</div><h1 id="page-title">Calculo diário<span>.</span></h1><p id="page-description">Fechamento com faturamento, despesas e imposto.</p></div></div>
+      <!-- Região de erros acessível; retry repete a consulta do painel atual. -->
+
+      <div id="error-banner" class="error-banner" role="alert" hidden><span id="error-text"></span><button id="retry">Tentar novamente</button></div>
+
+      <!-- Painel diário: indicadores, formulário, resultado e lançamentos. -->
+
+<div id="reminder-banner" class="reminder-banner" role="status" hidden><span id="reminder-banner-text"></span><button type="button" id="reminder-configure">Ver lembretes</button></div>
+      <section id="daily-view" aria-label="Calculo diário">
+        <!-- No celular, a data permanece acessível antes do formulário e do relatório. -->
+        <div id="mobile-date-slot" hidden></div>
+
+        <!-- Indicadores preenchidos dinamicamente com receita, despesas e lucro. -->
+
+        <div class="stats" id="daily-stats"></div>
+
+        <div class="daily-grid" id="daily-grid">
+
+          <!-- Dois totais por dia; os cálculos e a persistência são feitos por calcular_dia(). -->
+
+          <section class="card entry-card" id="daily-calculator">
+
+
+            <div class="card-heading"><div><span class="section-kicker">FECHAMENTO DO CAIXA</span><h2>Faturamento e despesas</h2></div></div>
+
+
+            <div class="date-control" id="daily-date-wrap"><label for="daily-date">Data do fechamento</label><input type="date" id="daily-date" aria-describedby="daily-date-help" required><p class="field-help" id="daily-date-help">Limite de lançamento: hoje e os 7 dias anteriores, uma única vez por data. Alterações e recálculos ficam em Editar e excluir dados.</p></div>
+
+            <div class="closing-date" id="closing-date" aria-live="polite"><span>Data deste fechamento</span><strong id="entry-date-label">—</strong></div>
+            <form id="entry-form">
+              <label for="revenue-amount">Faturamento bruto do dia</label>
+
+              <div class="money-input"><span>R$</span><input id="revenue-amount" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" required maxlength="18"></div>
+
+              <p class="field-help">Informe o total bruto vendido na data selecionada.</p>
+
+              <label for="expense-amount">Somatório de despesas do dia</label>
+
+              <div class="money-input"><span>R$</span><input id="expense-amount" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" required maxlength="18"></div>
+
+              <p class="field-help">Informe o total de todas as despesas do dia. Não é uma despesa avulsa.</p>
+
+              <button type="submit" class="primary-button" id="save-button">Salvar e calcular o dia</button>
+
+              <p class="form-note">Salvar registra os dois totais e calcula o lucro diário. Depois, alterações e recálculos são feitos na aba de edição.</p>
+              <p class="field-help" id="day-status" role="status">Carregando fechamento…</p>
+              <a class="edit-shortcut" id="daily-edit-link" href="#editar-dados" hidden>Ir para Editar e excluir dados nesta data →</a>
+
+            </form>
+
+          </section>
+
+          <!-- Resumo visual do lucro do dia; daily-result é preenchido pelo JavaScript. -->
+
+          <section class="card result-card" id="daily-report"><div class="card-heading"><div><span class="section-kicker">RESULTADO DO DIA</span><h2>Lucro do dia</h2></div><span class="small-tag" id="result-date"></span></div><div id="daily-result"></div>
+
+            <!-- Total diário de despesas salvo pelo backend; não há contador fictício de despesas individuais. -->
+
+            <section class="expense-summary" aria-labelledby="expense-summary-title">
+
+              <div><h3 id="expense-summary-title">Somatório de despesas do dia</h3><p id="daily-expense-count">Aguardando os lançamentos.</p></div>
+
+              <output id="daily-expense-total" aria-live="polite">—</output>
+
+            </section>
+
+            <div class="formula"><span>Bruto</span><b>−</b><span>Imposto</span><b>−</b><span>Despesas</span><b>=</b><span>Lucro</span></div><div class="result-note"><span>✦</span><p>Um bom resultado começa com um caixa bem acompanhado.</p></div></section>
+
+        </div>
+
+        <!-- Configuração da taxa global existente na API; não altera dias históricos automaticamente. -->
+
+        <details class="card tax-settings" id="daily-tax-settings">
+
+          <summary>Atualizar taxa de imposto · Taxa atual: <strong id="tax-current">Carregando…</strong></summary>
+
+          <form id="tax-form"><label for="tax-rate">Nova taxa (%)</label><div class="tax-fields"><input id="tax-rate" type="text" inputmode="decimal" placeholder="Ex.: 15" maxlength="20"><button id="save-tax" class="primary-button" type="submit">Atualizar taxa de imposto</button></div><p class="field-help">Deixe em branco para preservar a taxa atual. Alterações valem para os próximos cálculos.</p></form>
+
+        </details>
+
+        <!-- Tabela acessível com rolagem horizontal em telas pequenas. -->
+
+        <section class="card records-card" id="daily-record-card"><div class="card-heading"><div><h2>Fechamento do dia</h2><p>Valores registrados para esta data.</p></div><span class="small-tag" id="record-count"></span></div><div class="table-scroll"><table><thead><tr><th>Data</th><th class="number">Bruto</th><th class="number">Despesas</th><th class="number">Imposto</th><th class="number">Lucro diário</th></tr></thead><tbody id="daily-records"></tbody></table></div></section>
+      </section>
+
+      <!-- Segundo painel; usa o mesmo endpoint de intervalo para mês completo ou datas livres. -->
+
+      <section id="period-view" aria-label="Consultar mês e período" hidden>
+
+        <!-- O modo mensal converte o mês escolhido em primeiro e último dia; o modo personalizado usa as duas datas. -->
+
+        <form class="card filter-bar" id="period-form">
+
+          <fieldset class="range-mode"><legend>O que você quer ver?</legend>
+
+            <label><input type="radio" name="range-mode" value="month" checked> Mês completo</label>
+
+            <label><input type="radio" name="range-mode" value="custom"> Período personalizado</label>
+
+          </fieldset>
+
+          <div id="month-filter"><label for="selected-month">Mês de referência</label><input id="selected-month" type="month" required></div>
+
+          <div id="start-filter" hidden><label for="start-date">De</label><input id="start-date" type="date" disabled></div>
+
+          <div id="end-filter" hidden><label for="end-date">Até</label><input id="end-date" type="date" disabled></div>
+
+          <div id="preset-filter" hidden><label for="period-preset">Atalho</label><select id="period-preset" disabled><option value="month">Este mês até hoje</option><option value="last">Mês passado</option><option value="quarter">Últimos 3 meses</option><option value="custom">Personalizado</option></select></div>
+
+          <button class="primary-button" type="submit" id="filter-button">Ver mês completo</button>
+
+        </form>
+
+        <!-- Totais do intervalo efetivamente aplicado, preenchidos por renderPeriod. -->
+        <p id="period-message" class="field-help" role="status">clique ver mês completo para ver os dados</p>
+        <div id="period-results" hidden>
+
+        <div class="stats" id="period-stats"></div>
+
+        <!-- Gráfico SVG mensal e distribuição dos gastos por categoria. -->
+
+        <div class="period-grid"><section class="card"><div class="card-heading"><div><span class="section-kicker">SEUS NÚMEROS NO TEMPO</span><h2>Evolução do resultado</h2></div></div><div class="legend"><span><i class="yellow"></i>Faturamento</span><span><i class="red"></i>Despesas</span><span><i class="black"></i>Lucro</span></div><div id="chart" class="chart"></div></section><section class="card"><div class="card-heading"><div><span class="section-kicker">FECHAMENTOS</span><h2>Dias no período</h2></div></div><div id="period-summary"></div></section></div>
+
+        <!-- Tabela acessível com rolagem horizontal em telas pequenas. -->
+
+        <section class="card records-card"><div class="card-heading"><div><h2>Resumo mensal</h2><p id="period-caption">Resultados do período selecionado.</p></div></div><div class="table-scroll"><table><thead><tr><th>Mês</th><th class="number">Faturamento bruto</th><th class="number">Despesas</th><th class="number">Imposto</th><th class="number">Lucro do mês</th><th class="number">Margem</th></tr></thead><tbody id="monthly-records"></tbody></table></div></section>
+        </div>
+      </section>
+
+      <section id="manage-view" aria-label="Editar e excluir dados" hidden>
+        <form class="card filter-bar" id="manage-search">
+          <div><label for="manage-date">Data do registro</label><input type="date" id="manage-date" required></div>
+          <button class="primary-button" id="manage-search-button" type="submit">Consultar registro</button>
+        </form>
+        <p class="field-help" id="manage-message" role="status">Escolha a data e clique em Consultar registro.</p>
+        <section class="card management-card" id="manage-editor" hidden>
+          <div class="card-heading"><div><h2>Registro de <span id="manage-date-label"></span></h2><p id="manage-summary"></p></div></div>
+          <form id="manage-form">
+            <label for="manage-new-date">Data em que o faturamento foi realizado</label>
+            <input type="date" id="manage-new-date" required>
+            <label for="manage-revenue">Faturamento bruto do dia</label>
+            <div class="money-input"><span>R$</span><input id="manage-revenue" type="text" inputmode="decimal" required maxlength="18" autocomplete="off"></div>
+            <label for="manage-expenses">Somatório de despesas do dia</label>
+            <div class="money-input"><span>R$</span><input id="manage-expenses" type="text" inputmode="decimal" required maxlength="18" autocomplete="off"></div>
+            <p class="field-help" id="manage-tax-note"></p>
+            <button class="primary-button" id="manage-save" type="submit">Salvar e recalcular</button>
+          </form>
+          <div class="delete-area"><p>Excluir remove todo o fechamento desta data e atualiza os totais do mês e do ano. Esta ação não pode ser desfeita.</p><button class="danger-button" id="manage-delete" type="button">Excluir registro</button></div>
+        </section>
+      </section>
+
+<section id="reminders-view" aria-label="Lembretes" hidden>
+<section class="card reminder-card"><h2>Quando lembrar</h2><p>Escolha quais dias devem ter fechamento. Hoje ainda está em andamento e não entra nos lembretes.</p>
+<form id="reminder-form"><label class="reminder-check"><input type="checkbox" id="reminder-enabled" checked> Ativar lembretes nesta conta</label>
+<label for="reminder-days">Verificar lançamentos de</label><select id="reminder-days"><option value="1">Ontem</option><option value="2">Até 2 dias atrás</option><option value="3">Até 3 dias atrás</option><option value="4">Até 4 dias atrás</option><option value="5">Até 5 dias atrás</option><option value="6">Até 6 dias atrás</option><option value="7">Até 7 dias atrás</option></select>
+<fieldset class="reminder-weekdays"><legend>Dias da semana com lançamento</legend><label><input type="checkbox" name="reminder-weekday" value="1" checked> Segunda</label><label><input type="checkbox" name="reminder-weekday" value="2" checked> Terça</label><label><input type="checkbox" name="reminder-weekday" value="3" checked> Quarta</label><label><input type="checkbox" name="reminder-weekday" value="4" checked> Quinta</label><label><input type="checkbox" name="reminder-weekday" value="5" checked> Sexta</label><label><input type="checkbox" name="reminder-weekday" value="6" checked> Sábado</label><label><input type="checkbox" name="reminder-weekday" value="7" checked> Domingo</label></fieldset>
+<button class="primary-button" type="submit">Salvar lembretes</button></form><p class="field-help" id="reminder-feedback" role="status"></p></section>
+<section class="card reminder-card"><h2>Lançamentos pendentes</h2><p id="reminder-status" role="status"></p><ul id="reminder-pending"></ul><p id="reminder-checked" class="field-help"></p></section>
+<section class="card reminder-card"><h2>Notificações neste aparelho</h2><p>Uma verificação por dia, às 9h no horário de São Paulo. Você só recebe aviso se houver pendências na janela e nos dias escolhidos.</p>
+<p>As notificações não mostram valores financeiros. A entrega depende da permissão, da conexão e do navegador. No iPhone/iPad compatível, adicione o app à Tela de Início.</p>
+<div class="reminder-actions"><button class="primary-button" type="button" id="push-enable">Ativar neste aparelho</button><button class="secondary-button" type="button" id="push-disable">Desativar neste aparelho</button></div><p id="push-status" class="field-help" role="status"></p></section></section>
+      <!-- Identificação e fórmula utilizada para calcular o resultado. -->
+
+      <footer><span>TONY LANCHES <b>•</b> FINANCEIRO</span><span>Lucro diário = faturamento bruto − imposto − despesas</span></footer>
+    </div>
+
+  </main>
+
+  <!-- Confirmação de salvamento anunciada por leitores de tela. -->
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <!-- Ajuda de instalação para navegadores sem prompt programático, como Safari no iPhone. -->
+
+  <dialog class="install-dialog" id="install-help" aria-labelledby="install-title">
+
+    <h2 id="install-title">Tony Lanches no seu celular</h2>
+
+    <p id="install-message">Abra este endereço no navegador do celular.</p>
+
+    <p><strong>iPhone:</strong> no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.</p>
+
+    <p><strong>Android:</strong> no menu do navegador, escolha “Instalar aplicativo” ou “Adicionar à tela inicial”.</p>
+
+    <p>No computador, procure a opção de instalação no menu ou na barra de endereço do navegador.</p>
+
+    <form method="dialog"><button class="primary-button">Entendi</button></form>
+
+  </dialog>
+
+<script>document.getElementById('auth-gate').hidden=true; document.getElementById('app-sidebar').hidden=false; document.getElementById('app-main').hidden=false; ['daily','period','manage'].forEach(v=>document.getElementById(v+'-view').hidden=true);document.getElementById('reminders-view').hidden=false;document.getElementById('page-title').textContent='Lembretes';document.getElementById('page-description').textContent='Escolha quando lembrar dos lançamentos pendentes.';window.TonyAPI={};</script><script>/* Lembretes: snapshot da consulta diária, preferências por conta e push opcional. */
+(() => {
+  const $ = id => document.getElementById(id);
+  let snapshot = null, publicKey = '', busy = false, revision = 0;
+  const defaults = () => ({ativo: true, dias: 1, semana: [1, 2, 3, 4, 5, 6, 7]});
+  let config = defaults();
+  const dateText = value => new Date(value + 'T12:00:00Z').toLocaleDateString('pt-BR', {timeZone: 'America/Sao_Paulo'});
+  const weekdayInputs = () => [...document.querySelectorAll('[name="reminder-weekday"]')];
+  function fill() {
+    $('reminder-enabled').checked = config.ativo;
+    $('reminder-days').value = String(config.dias);
+    weekdayInputs().forEach(input => input.checked = config.semana.includes(Number(input.value)));
+  }
+  function readForm() {
+    const semana = weekdayInputs().filter(input => input.checked).map(input => Number(input.value));
+    if (!semana.length) throw new Error('Escolha pelo menos um dia da semana.');
+    return {ativo: $('reminder-enabled').checked, dias: Number($('reminder-days').value), semana};
+  }
+  function render() {
+    const list = $('reminder-pending'); list.replaceChildren();
+    $('reminder-banner').hidden = true;
+    if (!config.ativo) { $('reminder-status').textContent = 'Lembretes desativados nesta conta.'; return; }
+    if (!snapshot) { $('reminder-status').textContent = 'Consulte o cálculo diário para verificar os lançamentos pendentes.'; return; }
+    const now = new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date());
+    if (now !== snapshot.hoje) { $('reminder-status').textContent = 'O dia mudou. Atualize a consulta diária para verificar as pendências.'; return; }
+    const end = Date.parse(snapshot.hoje + 'T12:00:00Z');
+    const pending = snapshot.pendentes.filter(date => {
+      const day = new Date(date + 'T12:00:00Z'), age = Math.round((end - day.getTime()) / 86400000);
+      return age >= 1 && age <= config.dias && config.semana.includes(day.getUTCDay() || 7);
+    });
+    $('reminder-status').textContent = pending.length ? `${pending.length} dia(s) sem fechamento completo no intervalo escolhido.` : 'Nenhum lançamento pendente no intervalo escolhido.';
+    $('reminder-checked').textContent = `Verificado junto da consulta diária de ${dateText(snapshot.hoje)}. Alterações em outros aparelhos aparecem na próxima consulta.`;
+    $('reminder-banner').hidden = pending.length === 0;
+    $('reminder-banner-text').textContent = `${pending.length} dia(s) aguardando lançamento. Confira seus lembretes.`;
+    for (const date of pending) {
+      const item = document.createElement('li'), button = document.createElement('button');
+      button.type = 'button'; button.className = 'reminder-date';
+      button.textContent = `Consultar ${dateText(date)}`;
+      button.addEventListener('click', () => window.dispatchEvent(new CustomEvent('tony:reminder-open', {detail: date})));
+      item.append(button); list.append(item);
+    }
+  }
+  function reset() {
+    ++revision; snapshot = null; publicKey = ''; config = defaults();
+    delete $('reminder-form').dataset.dirty; fill(); render();
+    $('reminder-checked').textContent = '';
+    $('reminder-feedback').textContent = ''; $('push-status').textContent = '';
+  }
+  async function subscription() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return null;
+    const registration = await navigator.serviceWorker.getRegistration();
+    return registration ? registration.pushManager.getSubscription() : null;
+  }
+  function pushStatus() {
+    const session = revision;
+    subscription().then(current => {
+      if (session !== revision) return;
+      $('push-status').textContent = current ? 'Notificações ativadas neste aparelho. A verificação acontece às 9h (São Paulo).' : 'Notificações desativadas neste aparelho.';
+    }).catch(() => { if (session === revision) $('push-status').textContent = 'Não foi possível conferir a inscrição deste aparelho.'; });
+  }
+  window.TonyReminders = {
+    accept(data) {
+      if (!data || !/^\d{4}-\d{2}-\d{2}$/.test(data.hoje) || !Array.isArray(data.pendentes) || data.pendentes.length > 7 || data.pendentes.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date))) {
+        snapshot = null; render(); return;
+      }
+      snapshot = {hoje: data.hoje, pendentes: [...data.pendentes]};
+      publicKey = data.chave_publica || '';
+      // Uma resposta de consulta não apaga alterações ainda não salvas no formulário.
+      config = data.config || defaults();
+      if (!$('reminder-form').dataset.dirty) fill();
+      render(); pushStatus();
+    },
+    recordChanged(date, complete) {
+      if (!snapshot) return;
+      const age = (Date.parse(snapshot.hoje + 'T12:00:00Z') - Date.parse(date + 'T12:00:00Z')) / 86400000;
+      if (age < 1 || age > 7) return;
+      snapshot.pendentes = snapshot.pendentes.filter(item => item !== date);
+      if (!complete) snapshot.pendentes.push(date);
+      snapshot.pendentes.sort(); render();
+    },
+    invalidate() { snapshot = null; render(); },
+    async unsubscribeLocal() {
+      try { const current = await subscription(); if (current) await current.unsubscribe(); }
+      catch { console.warn('Não foi possível remover a inscrição local de notificações.'); }
+    }
+  };
+  $('reminder-form').addEventListener('input', () => $('reminder-form').dataset.dirty = 'true');
+  async function saveConfig() {
+    const session = revision;
+    const next = readForm();
+    const saved = await TonyAPI.saveReminderConfig(next);
+    if (session !== revision) return;
+    config = saved; delete $('reminder-form').dataset.dirty; fill(); render();
+  }
+  async function action(callback) {
+    if (busy) return;
+    busy = true; const session = revision;
+    const controls = [...$('reminder-form').elements, $('push-enable'), $('push-disable')];
+    controls.forEach(input => input.disabled = true); $('reminder-feedback').textContent = '';
+    try { await callback(session); }
+    catch (error) { if (session === revision) $('reminder-feedback').textContent = error.message || 'Não foi possível concluir. Tente novamente.'; }
+    finally { busy = false; controls.forEach(input => input.disabled = false); }
+  }
+  $('reminder-form').addEventListener('submit', event => {
+    event.preventDefault();
+    action(async session => { await saveConfig(); if (session === revision) $('reminder-feedback').textContent = 'Preferências salvas nesta conta.'; });
+  });
+  $('push-enable').addEventListener('click', () => action(async session => {
+    if (!('Notification' in window) || !('PushManager' in window) || !('serviceWorker' in navigator)) throw new Error('Este navegador não oferece Web Push. No iPhone/iPad, use o app adicionado à Tela de Início em um sistema compatível.');
+    if (!publicKey) throw new Error('Consulte o cálculo diário antes de ativar as notificações.');
+    // Pedido feito no clique da pessoa, antes de aguardar chamadas à API.
+    if (await Notification.requestPermission() !== 'granted') throw new Error('As notificações não foram autorizadas. Você pode liberar a permissão nas configurações do navegador.');
+    if (session !== revision) return;
+    const registration = await navigator.serviceWorker.getRegistration();
+    if (!registration?.active) throw new Error('A instalação ainda está sendo preparada. Reabra o app e tente novamente.');
+    const raw = atob(publicKey.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - publicKey.length % 4) % 4));
+    const key = Uint8Array.from(raw, char => char.charCodeAt(0));
+    let current = await registration.pushManager.getSubscription();
+    const created = !current;
+    if (!current) current = await registration.pushManager.subscribe({userVisibleOnly: true, applicationServerKey: key});
+    if (session !== revision) { await current.unsubscribe(); return; }
+    try {
+      await saveConfig();
+      if (session !== revision) { await current.unsubscribe(); return; }
+      await TonyAPI.registerPush(current.toJSON());
+    } catch (error) { if (created) await current.unsubscribe(); throw error; }
+    if (session !== revision) { await current.unsubscribe(); return; }
+    pushStatus(); $('reminder-feedback').textContent = 'Aparelho cadastrado. A primeira verificação será às 9h (São Paulo).';
+  }));
+  $('push-disable').addEventListener('click', () => action(async session => {
+    const current = await subscription();
+    if (current) {
+      await TonyAPI.unregisterPush(current.endpoint);
+      await current.unsubscribe();
+    }
+    if (session === revision) pushStatus();
+  }));
+  $('reminder-configure').addEventListener('click', () => document.querySelector('[data-view="reminders"]').click());
+  window.addEventListener('tony:signed-out', reset);
+  window.addEventListener('tony:authenticated', reset);
+  fill(); render();
+})();
+</script><script>document.body.dataset.viewport=innerWidth;document.body.dataset.overflow=document.documentElement.scrollWidth>innerWidth;</script></body>
+
+</html>
+

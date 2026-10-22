@@ -1,0 +1,9 @@
+# Somente o contexto necessário para construir o backend.
+*
+!Dockerfile
+!requirements.txt
+!calculo.py
+!database_config.py
+!faturamento.py
+!autenticacao.py
+!lembretes.py

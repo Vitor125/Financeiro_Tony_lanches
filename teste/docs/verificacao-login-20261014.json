@@ -1,0 +1,28 @@
+{
+  "data": "2026-10-14",
+  "app": "https://financeiro-tony-lanches.web.app",
+  "arquivos": [
+    {
+      "arquivo": "index.html",
+      "hash_identico": true
+    },
+    {
+      "arquivo": "sw.js",
+      "hash_identico": true
+    },
+    {
+      "arquivo": "auth.js",
+      "hash_identico": true
+    },
+    {
+      "arquivo": "config.js",
+      "hash_identico": true
+    }
+  ],
+  "js_tests": 5,
+  "python_auth_tests": 13,
+  "ganho_login_ponta_a_ponta_medido": false,
+  "backend_alterado": false,
+  "recursos_cloud_run_alterados": false,
+  "cabecalhos_seguranca_preservados": true
+}

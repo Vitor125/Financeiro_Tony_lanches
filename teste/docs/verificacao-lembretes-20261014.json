@@ -1,0 +1,41 @@
+{
+  "data": "2026-10-14",
+  "revisao": "financeiro-tony-lanches-00010-foc",
+  "arquivos_publicados": [
+    {
+      "arquivo": "index.html",
+      "igual": true
+    },
+    {
+      "arquivo": "app.js",
+      "igual": true
+    },
+    {
+      "arquivo": "api.js",
+      "igual": true
+    },
+    {
+      "arquivo": "auth.js",
+      "igual": true
+    },
+    {
+      "arquivo": "styles.css",
+      "igual": true
+    },
+    {
+      "arquivo": "sw.js",
+      "igual": true
+    },
+    {
+      "arquivo": "reminders.js",
+      "igual": true
+    }
+  ],
+  "financeiro_sem_token": 401,
+  "scheduler_sem_token": 401,
+  "scheduler_google_oidc": 200,
+  "testes_python": 60,
+  "testes_js": 6,
+  "push_real_em_aparelho_testado": false,
+  "verificacao_final_publicacao": true
+}

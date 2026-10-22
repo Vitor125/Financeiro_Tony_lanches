@@ -1,0 +1,23 @@
+{
+  "hosting": {
+    "public": ".",
+    "headers": [
+      {"source": "**", "headers": [
+        {"key": "X-Content-Type-Options", "value": "nosniff"},
+        {"key": "X-Frame-Options", "value": "DENY"},
+        {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
+        {"key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()"},
+        {"key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://financeiro-tony-lanches-84954471063.southamerica-east1.run.app https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-src https://financeiro-tony-lanches.firebaseapp.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'"}
+      ]},
+      {"source": "/sw.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}]},
+      {"source": "/index.html", "headers": [{"key": "Cache-Control", "value": "no-cache"}]}
+    ],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "README.md",
+      "firebase-debug.log*"
+    ]
+  }
+}

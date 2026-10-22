@@ -1,0 +1,17 @@
+
+# Credenciais locais da conexão PostgreSQL
+.env
+.env.*
+!.env.example
+**/.venv/
+**/__pycache__/
+**/.firebase/
+**/.ruff_cache/
+**/.pytest_cache/
+**/.mypy_cache/
+**/backups/
+**/Frontend-backups/
+**/firebase-debug.log*
+**/cloudrun-env.yaml
+**/node_modules/
+*.py[cod]

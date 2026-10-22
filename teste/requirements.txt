@@ -1,0 +1,10 @@
+Flask==3.1.3
+psycopg2-binary==2.9.11
+requests==2.34.2
+python-dotenv==1.2.4
+firebase-admin==7.7.0
+gunicorn==23.0.0
+tzdata==2026.5
+# Correção de CVE-2026-7246 na dependência transitiva do Flask.
+click==8.3.3
+pywebpush==2.5.0

@@ -1,0 +1,68 @@
+{
+  "data": "2026-10-04",
+  "frontend": "https://financeiro-tony-lanches.web.app",
+  "revisao_cloud_run": "financeiro-tony-lanches-00006-cax",
+  "arquivos": [
+    {
+      "arquivo": "index.html",
+      "corresponde": true
+    },
+    {
+      "arquivo": "styles.css",
+      "corresponde": true
+    },
+    {
+      "arquivo": "config.js",
+      "corresponde": true
+    },
+    {
+      "arquivo": "auth.js",
+      "corresponde": true
+    },
+    {
+      "arquivo": "api.js",
+      "corresponde": true
+    },
+    {
+      "arquivo": "app.js",
+      "corresponde": true
+    },
+    {
+      "arquivo": "pwa.js",
+      "corresponde": true
+    },
+    {
+      "arquivo": "finance.js",
+      "corresponde": true
+    },
+    {
+      "arquivo": "sw.js",
+      "corresponde": true
+    },
+    {
+      "arquivo": "manifest.webmanifest",
+      "corresponde": true
+    },
+    {
+      "arquivo": "assets/icon-180.png",
+      "corresponde": true
+    },
+    {
+      "arquivo": "assets/icon-192.png",
+      "corresponde": true
+    },
+    {
+      "arquivo": "assets/icon-512.png",
+      "corresponde": true
+    },
+    {
+      "arquivo": "assets/icon-maskable-512.png",
+      "corresponde": true
+    },
+    {
+      "arquivo": "assets/logo.png",
+      "corresponde": true
+    }
+  ],
+  "cabecalhos_seguranca": true
+}

@@ -1,0 +1,14 @@
+{
+  "data": "2026-10-14",
+  "arquivos_verificados": [
+    "styles.css",
+    "app.js",
+    "index.html",
+    "sw.js"
+  ],
+  "js_tests": 6,
+  "lucro": "verde",
+  "faturamento": "amarelo",
+  "prejuizo": "vermelho",
+  "cache": "v26-financial-colors"
+}

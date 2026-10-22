@@ -1,0 +1,218 @@
+test_api_rejeita_requisicao_sem_token (test_authentication.AuthenticationTest.test_api_rejeita_requisicao_sem_token) ... ok
+test_cabecalhos_protegem_resposta_da_api (test_authentication.AuthenticationTest.test_cabecalhos_protegem_resposta_da_api) ... ok
+test_conta_autorizada_obtem_identidade_validada (test_authentication.AuthenticationTest.test_conta_autorizada_obtem_identidade_validada) ... ok
+test_conta_fora_da_lista_nao_acessa_dados (test_authentication.AuthenticationTest.test_conta_fora_da_lista_nao_acessa_dados) ... ok
+test_corpo_excessivo_recusado_antes_do_banco (test_authentication.AuthenticationTest.test_corpo_excessivo_recusado_antes_do_banco) ... ok
+test_erro_do_banco_nao_expoe_detalhes_internos (test_authentication.AuthenticationTest.test_erro_do_banco_nao_expoe_detalhes_internos) ... [2026-10-14 21:41:49,722] ERROR in faturamento: Falha ao consultar taxa de imposto.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 226, in get_taxa_imposto_atual
+    with closing(psycopg2.connect(**DB_CONFIG)) as conn:
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+psycopg2.OperationalError: private-database-secret
+[2026-10-14 21:41:49,725] ERROR in faturamento: Falha ao consultar bruto di�rio.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 357, in get_faturamento_bruto_diario
+    with closing(psycopg2.connect(**DB_CONFIG)) as conn:
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 226, in get_taxa_imposto_atual
+    with closing(psycopg2.connect(**DB_CONFIG)) as conn:
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+psycopg2.OperationalError: private-database-secret
+ok
+test_frontend_local_permanece_publico_para_mostrar_login (test_authentication.AuthenticationTest.test_frontend_local_permanece_publico_para_mostrar_login) ... ok
+test_healthcheck_nao_expoe_dados_e_nao_exige_login (test_authentication.AuthenticationTest.test_healthcheck_nao_expoe_dados_e_nao_exige_login) ... ok
+test_preflight_cors_autoriza_somente_hosting_configurado (test_authentication.AuthenticationTest.test_preflight_cors_autoriza_somente_hosting_configurado) ... ok
+test_preflight_nao_autoriza_origem_nao_configurada (test_authentication.AuthenticationTest.test_preflight_nao_autoriza_origem_nao_configurada) ... ok
+test_resposta_de_api_envia_cors_apenas_para_hosting (test_authentication.AuthenticationTest.test_resposta_de_api_envia_cors_apenas_para_hosting) ... ok
+test_sem_lista_de_emails_a_api_falha_fechada (test_authentication.AuthenticationTest.test_sem_lista_de_emails_a_api_falha_fechada) ... [2026-10-14 21:41:49,803] ERROR in faturamento: FIREBASE_PROJECT_ID e ALLOWED_EMAILS precisam estar configurados.
+ok
+test_token_invalido_retorna_nao_autorizado (test_authentication.AuthenticationTest.test_token_invalido_retorna_nao_autorizado) ... ok
+test_envia_fechamento_em_um_post_autenticado (test_calculo_auth.CalculoAuthTest.test_envia_fechamento_em_um_post_autenticado) ... ok
+test_nao_envia_token_para_api_remota_sem_https (test_calculo_auth.CalculoAuthTest.test_nao_envia_token_para_api_remota_sem_https) ... ok
+test_cli_nao_envia_datas_bloqueadas (test_datas_encerradas.DatasPermitidasTest.test_cli_nao_envia_datas_bloqueadas) ... ok
+test_consultas_continuam_aceitando_datas_validas (test_datas_encerradas.DatasPermitidasTest.test_consultas_continuam_aceitando_datas_validas) ... ok
+test_diario_nao_grava_passado_sem_conectar (test_datas_encerradas.DatasPermitidasTest.test_diario_nao_grava_passado_sem_conectar) ... ok
+test_ontem_e_hoje_aceitos_futuro_recusado (test_datas_encerradas.DatasPermitidasTest.test_ontem_e_hoje_aceitos_futuro_recusado) ... ok
+test_todas_as_rotas_de_gravacao_bloqueiam_sem_conectar (test_datas_encerradas.DatasPermitidasTest.test_todas_as_rotas_de_gravacao_bloqueiam_sem_conectar) ... ok
+test_virada_do_dia_ocorre_em_sao_paulo (test_datas_encerradas.FusoNegocioTest.test_virada_do_dia_ocorre_em_sao_paulo) ... ok
+test_adicionar_passado_na_gestao_sem_sobrescrever_e_recalcular (test_fechamento_diario.FechamentoDiarioTest.test_adicionar_passado_na_gestao_sem_sobrescrever_e_recalcular) ... ok
+test_arredondamento_e_prejuizo (test_fechamento_diario.FechamentoDiarioTest.test_arredondamento_e_prejuizo) ... ok
+test_ausencia_de_taxa_nao_grava_nada (test_fechamento_diario.FechamentoDiarioTest.test_ausencia_de_taxa_nao_grava_nada) ... ok
+test_consultas_mensais_nao_escrevem_e_preservam_contrato (test_fechamento_diario.FechamentoDiarioTest.test_consultas_mensais_nao_escrevem_e_preservam_contrato) ... ok
+test_cria_atualiza_sem_duplicar_e_sem_http_interno (test_fechamento_diario.FechamentoDiarioTest.test_cria_atualiza_sem_duplicar_e_sem_http_interno) ... ok
+test_datas_e_consulta_de_despesas_legadas (test_fechamento_diario.FechamentoDiarioTest.test_datas_e_consulta_de_despesas_legadas) ... ok
+test_edicao_exclusao_exigem_login (test_fechamento_diario.FechamentoDiarioTest.test_edicao_exclusao_exigem_login) ... ok
+test_edicao_exclusao_falha_reverte_registro_e_totais (test_fechamento_diario.FechamentoDiarioTest.test_edicao_exclusao_falha_reverte_registro_e_totais) ... [2026-10-14 21:41:53,777] ERROR in faturamento: Falha na transa��o do fechamento di�rio.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 794, in _gravar_fechamento
+    _atualizar_totais_periodo(data.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+psycopg2.OperationalError: falha simulada
+[2026-10-14 21:41:53,891] ERROR in faturamento: Falha ao excluir fechamento.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 640, in excluir_registro
+    _atualizar_totais_periodo(data.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 794, in _gravar_fechamento
+    _atualizar_totais_periodo(data.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+psycopg2.OperationalError: falha simulada
+ok
+test_edicao_exclusao_recusam_registro_alterado_ou_ausente (test_fechamento_diario.FechamentoDiarioTest.test_edicao_exclusao_recusam_registro_alterado_ou_ausente) ... ok
+test_edicao_hoje_e_limpeza_de_registro_futuro (test_fechamento_diario.FechamentoDiarioTest.test_edicao_hoje_e_limpeza_de_registro_futuro) ... ok
+test_editar_existente_e_excluir_atualizam_totais (test_fechamento_diario.FechamentoDiarioTest.test_editar_existente_e_excluir_atualizam_totais) ... ok
+test_entradas_invalidas_nao_abrem_conexao (test_fechamento_diario.FechamentoDiarioTest.test_entradas_invalidas_nao_abrem_conexao) ... ok
+test_estouro_dos_totais_reverte_segundo_dia (test_fechamento_diario.FechamentoDiarioTest.test_estouro_dos_totais_reverte_segundo_dia) ... [2026-10-14 21:41:57,431] ERROR in faturamento: Falha na transa��o do fechamento di�rio.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 794, in _gravar_fechamento
+    _atualizar_totais_periodo(data.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 400, in _atualizar_totais_periodo
+    cur.execute(
+    ~~~~~~~~~~~^
+        """
+        ^^^
+    ...<32 lines>...
+        (data, data, data, data),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+psycopg2.errors.NumericValueOutOfRange: numeric field overflow
+DETAIL:  A field with precision 10, scale 2 must round to an absolute value less than 10^8.
+
+ok
+test_falha_ao_mover_reverte_ambos_periodos (test_fechamento_diario.FechamentoDiarioTest.test_falha_ao_mover_reverte_ambos_periodos) ... [2026-10-14 21:41:58,182] ERROR in faturamento: Falha na transa��o do fechamento di�rio.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 798, in _gravar_fechamento
+    _atualizar_totais_periodo(origem.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1234, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\tests\test_fechamento_diario.py", line 192, in falhar_origem
+    raise psycopg2.OperationalError("falha no segundo per�odo")
+psycopg2.OperationalError: falha no segundo per�odo
+ok
+test_falha_nos_totais_reverte_criacao_e_atualizacao (test_fechamento_diario.FechamentoDiarioTest.test_falha_nos_totais_reverte_criacao_e_atualizacao) ... [2026-10-14 21:41:58,717] ERROR in faturamento: Falha na transa��o do fechamento di�rio.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 794, in _gravar_fechamento
+    _atualizar_totais_periodo(data.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+psycopg2.OperationalError: falha simulada
+[2026-10-14 21:41:58,813] ERROR in faturamento: Falha na transa��o do fechamento di�rio.
+Traceback (most recent call last):
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 794, in _gravar_fechamento
+    _atualizar_totais_periodo(data.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+  File "A:\Trabalho Vitor\04_devs\ideia\teste\faturamento.py", line 794, in _gravar_fechamento
+    _atualizar_totais_periodo(data.isoformat(), conn)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\mock.py", line 1228, in _execute_mock_call
+    raise effect
+psycopg2.OperationalError: falha simulada
+ok
+test_hoje_permitido_em_todas_as_rotas_de_gravacao (test_fechamento_diario.FechamentoDiarioTest.test_hoje_permitido_em_todas_as_rotas_de_gravacao) ... ok
+test_janela_sete_dias_inclusiva_e_cadastro_unico (test_fechamento_diario.FechamentoDiarioTest.test_janela_sete_dias_inclusiva_e_cadastro_unico) ... ok
+test_lock_protege_ano_ate_commit_e_depois_libera (test_fechamento_diario.FechamentoDiarioTest.test_lock_protege_ano_ate_commit_e_depois_libera) ... ok
+test_mover_data_entre_anos_e_meses_preserva_id_e_totais (test_fechamento_diario.FechamentoDiarioTest.test_mover_data_entre_anos_e_meses_preserva_id_e_totais) ... ok
+test_mover_para_data_ocupada_ou_futura_nao_altera (test_fechamento_diario.FechamentoDiarioTest.test_mover_para_data_ocupada_ou_futura_nao_altera) ... ok
+test_periodo_filtrado_inclusivo_e_listagem_antiga (test_fechamento_diario.FechamentoDiarioTest.test_periodo_filtrado_inclusivo_e_listagem_antiga) ... ok
+test_posts_avulsos_uma_conexao_e_rollback (test_fechamento_diario.FechamentoDiarioTest.test_posts_avulsos_uma_conexao_e_rollback) ... ok
+test_reenvio_igual_nao_atualiza_linhas_nem_agregados (test_fechamento_diario.FechamentoDiarioTest.test_reenvio_igual_nao_atualiza_linhas_nem_agregados) ... ok
+test_resumo_ausente_incompleto_e_completo_em_uma_consulta (test_fechamento_diario.FechamentoDiarioTest.test_resumo_ausente_incompleto_e_completo_em_uma_consulta) ... ok
+test_totais_mensais_anuais_e_historico_preservados (test_fechamento_diario.FechamentoDiarioTest.test_totais_mensais_anuais_e_historico_preservados) ... ok
+test_config_por_conta_e_sem_alteracao_de_financeiro (test_lembretes.LembretesTest.test_config_por_conta_e_sem_alteracao_de_financeiro) ... ok
+test_criptografia_webpush_real_sem_rede (test_lembretes.LembretesTest.test_criptografia_webpush_real_sem_rede) ... ok
+test_desativado_nao_envia_e_exclusao_so_do_dono (test_lembretes.LembretesTest.test_desativado_nao_envia_e_exclusao_so_do_dono) ... ok
+test_pendencias_em_uma_consulta_incluem_parcial_mas_nao_zero_ou_hoje (test_lembretes.LembretesTest.test_pendencias_em_uma_consulta_incluem_parcial_mas_nao_zero_ou_hoje) ... ok
+test_push_so_uma_vez_no_dia_e_nao_envia_dados_financeiros (test_lembretes.LembretesTest.test_push_so_uma_vez_no_dia_e_nao_envia_dados_financeiros) ... ok
+test_scheduler_nao_aceita_firebase_nem_email_errado (test_lembretes.LembretesTest.test_scheduler_nao_aceita_firebase_nem_email_errado) ... ok
+test_subscription_rejeita_ssrf_e_chaves_invalidas (test_lembretes.LembretesTest.test_subscription_rejeita_ssrf_e_chaves_invalidas) ... ok
+test_valida_limites_e_bloqueia_sem_token (test_lembretes.LembretesTest.test_valida_limites_e_bloqueia_sem_token) ... ok
+test_campo_opcional_nao_abre_conexao (test_taxa_imposto_atual.TaxaImpostoAtualTest.test_campo_opcional_nao_abre_conexao) ... ok
+test_entradas_invalidas_nao_gravam (test_taxa_imposto_atual.TaxaImpostoAtualTest.test_entradas_invalidas_nao_gravam) ... ok
+test_formulario (test_taxa_imposto_atual.TaxaImpostoAtualTest.test_formulario) ... ok
+test_get_sem_taxa_nao_cria_registro (test_taxa_imposto_atual.TaxaImpostoAtualTest.test_get_sem_taxa_nao_cria_registro) ... ok
+test_grava_consulta_e_altera (test_taxa_imposto_atual.TaxaImpostoAtualTest.test_grava_consulta_e_altera) ... ok
+test_valor_equivalente_e_campo_vazio_preservam_registro (test_taxa_imposto_atual.TaxaImpostoAtualTest.test_valor_equivalente_e_campo_vazio_preservam_registro) ... ok
+
+----------------------------------------------------------------------
+Ran 60 tests in 22.394s
+
+OK
+Smoke: tr�s consultas no endpoint configurado passaram, sem grava��es.
